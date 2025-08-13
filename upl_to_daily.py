@@ -4,6 +4,10 @@ from datetime import timedelta
 
 import uuid
 
+import requests
+import json
+import xmltodict
+
 import warnings
 warnings.simplefilter("ignore")
 
@@ -11,6 +15,7 @@ import pandas as pd
 import numpy as np 
 
 import datetime
+from dateutil.relativedelta import relativedelta
 
 import pendulum
 
@@ -52,6 +57,7 @@ from modules.api_info import var_encrypt_var_db_for_upl_schema
 from modules.api_info import var_encrypt_var_db_for_upl_schema_inter
 from modules.api_info import var_encrypt_var_db_for_upl_schema_service_toolkit
 from modules.api_info import var_encrypt_var_db_schema
+from modules.api_info import var_encrypt_var_to_docs_upl
 from modules.api_info import var_encrypt_var_db_for_upl_schema_to
 from modules.api_info import var_encryptvar_API_sbis
 from modules.api_info import var_encrypt_API_sbis_pass
@@ -82,6 +88,8 @@ var_db_for_upl_schema_to = f_decrypt(var_encrypt_var_db_for_upl_schema_to, load_
 
 
 var_db_schema = f_decrypt(var_encrypt_var_db_schema, load_key_external()).decode("utf-8")
+var_to_docs_upl = f_decrypt(var_encrypt_var_to_docs_upl, load_key_external()).decode("utf-8")
+
 
 API_sbis = f_decrypt(var_encryptvar_API_sbis, load_key_external()).decode("utf-8")
 API_sbis_pass = f_decrypt(var_encrypt_API_sbis_pass, load_key_external()).decode("utf-8")
@@ -962,7 +970,7 @@ with DAG(
 
 
         # ________________________________________________________
-        report_date = datetime.now().date()
+        report_date = datetime.datetime.now().date()
         var_year = (report_date - relativedelta(months=2)).year
         var_month = (report_date - relativedelta(months=2)).month
         year_range = list(range(var_year, report_date.year+1))
@@ -977,9 +985,9 @@ with DAG(
                         # ____________________
                         print(i_year, i_month)
                         # ____________________
-                        var_name_date_for_upl = datetime(i_year,i_month,1).date().strftime('%Y%m%d')
-                        start_date = datetime(i_year, i_month, 1).date().strftime('%d.%m.%Y')
-                        end_date = (datetime(i_year, i_month, 1).date() + relativedelta(months=1, days=-1)).strftime('%d.%m.%Y')
+                        var_name_date_for_upl = datetime.datetime(i_year,i_month,1).date().strftime('%Y%m%d')
+                        start_date = datetime.datetime(i_year, i_month, 1).date().strftime('%d.%m.%Y')
+                        end_date = (datetime.datetime(i_year, i_month, 1).date() + relativedelta(months=1, days=-1)).strftime('%d.%m.%Y')
                         # print(var_name_date_for_upl, start_date, end_date)
                         to_coll_sell(start_date, end_date, var_name_date_for_upl)
                         # print(f"{var_name_date_for_upl} success")
@@ -991,9 +999,9 @@ with DAG(
                         # ____________________
                         print(i_year, i_month)
                         # ____________________                
-                        var_name_date_for_upl = datetime(i_year,i_month,1).date().strftime('%Y%m%d')
-                        start_date = datetime(i_year, i_month, 1).date().strftime('%d.%m.%Y')
-                        end_date = (datetime(i_year, i_month, 1).date() + relativedelta(months=1, days=-1)).strftime('%d.%m.%Y')
+                        var_name_date_for_upl = datetime.datetime(i_year,i_month,1).date().strftime('%Y%m%d')
+                        start_date = datetime.datetime(i_year, i_month, 1).date().strftime('%d.%m.%Y')
+                        end_date = (datetime.datetime(i_year, i_month, 1).date() + relativedelta(months=1, days=-1)).strftime('%d.%m.%Y')
                         # print(var_name_date_for_upl, start_date, end_date)
                         to_coll_sell(start_date, end_date, var_name_date_for_upl)
                         # print(f"{var_name_date_for_upl} success")
@@ -1006,9 +1014,9 @@ with DAG(
                     # ____________________
                     print(i_year, i_month)
                     # ____________________  
-                    var_name_date_for_upl = datetime(i_year,i_month,1).date().strftime('%Y%m%d')
-                    start_date = datetime(i_year, i_month, 1).date().strftime('%d.%m.%Y')
-                    end_date = (datetime(i_year, i_month, 1).date() + relativedelta(months=1, days=-1)).strftime('%d.%m.%Y')
+                    var_name_date_for_upl = datetime.datetime(i_year,i_month,1).date().strftime('%Y%m%d')
+                    start_date = datetime.datetime(i_year, i_month, 1).date().strftime('%d.%m.%Y')
+                    end_date = (datetime.datetime(i_year, i_month, 1).date() + relativedelta(months=1, days=-1)).strftime('%d.%m.%Y')
                     # print(var_name_date_for_upl, start_date, end_date)
                     to_coll_sell(start_date, end_date, var_name_date_for_upl)
                     # print(f"{var_name_date_for_upl} success")
